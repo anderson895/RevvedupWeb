@@ -5,6 +5,9 @@ include "src/components/header.php";
 
   <!-- Navbar -->
   <header class="absolute top-0 left-0 w-full flex justify-end items-center p-6 z-20 bg-black/50">
+
+  
+
     <nav class="flex gap-6 text-sm font-semibold">
       <a href="login" class="hover:text-red-500">Sign In</a>
       <a href="register" class="hover:text-red-500">Register</a>
@@ -13,6 +16,7 @@ include "src/components/header.php";
 
   <!-- Hero Section -->
   <section class="relative w-full h-screen" style="background-image: url('static/images/cover.jpg'); background-size: cover; background-position: center;">
+
 
     <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4">
      <!-- Logo -->
