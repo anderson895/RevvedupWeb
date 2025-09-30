@@ -17,6 +17,57 @@
 
 
 
+
+
+
+
+        
+    public function RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency) {
+    
+        // build query (gamit placeholders para maiwasan SQL injection)
+        $query = "INSERT INTO appointments 
+                (service, employee_id, fullname, contact, appointmentDate, appointmentTime, emergency, status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')";
+
+        // prepare statement
+        $stmt = $this->conn->prepare($query);
+        if ($stmt === false) {
+            return [
+                'success' => false,
+                'message' => 'Query preparation failed: ' . $this->conn->error
+            ];
+        }
+
+        // bind params (s = string, i = integer)
+        $stmt->bind_param(
+            "sissssi", 
+            $service, 
+            $employee_id, 
+            $fullname, 
+            $contact, 
+            $appointmentDate, 
+            $appointmentTime, 
+            $emergency
+        );
+
+        // execute and check
+        if ($stmt->execute()) {
+            return [
+                'success' => true,
+                'message' => 'Appointment booked successfully. Pending for approval.'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Appointment failed: ' . $stmt->error
+            ];
+        }
+    }
+
+
+
+
+
         
     public function Login($email, $password)
 {

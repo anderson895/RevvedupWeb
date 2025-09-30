@@ -44,6 +44,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ]);
                 }
 
+        }else if ($_POST['requestType'] == 'RequestAppointment') {
+
+                $service          = $_POST['service'] ?? '';
+                $employee_id      = $_POST['employee_id'] ?? '';
+                $fullname         = $_POST['fullname'] ?? '';
+                $contact          = $_POST['contact'] ?? '';
+                $appointmentDate  = $_POST['appointmentDate'] ?? '';
+                $appointmentTime  = $_POST['appointmentTime'] ?? '';
+                $emergency        = isset($_POST['emergency']) ? $_POST['emergency'] : 0;
+
+                if ($service === "other" && !empty($_POST['otherService'])) {
+                    $service = $_POST['otherService'];
+                }
+                
+                if (empty($service) || empty($employee_id) || empty($fullname) || empty($contact) || empty($appointmentDate) || empty($appointmentTime)) {
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => 'Missing required fields.'
+                    ]);
+                    exit;
+                }
+
+                $result = $db->RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency);
+
+                if ($result['success']) {
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => $result['message'],
+                    ]);
+                } else {
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => $result['message']
+                    ]);
+                }
+
+
+
+
         }else {
                 echo "<pre>";
                 print_r($_POST);

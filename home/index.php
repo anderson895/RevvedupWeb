@@ -11,7 +11,7 @@ include "../src/components/home/header.php";
 
     <div class="space-x-6 hidden md:flex">
       <a href="#" id="open-category" class="text-white hover:text-red-300">Categories</a>
-      <a href="#" class="text-white hover:text-red-300">Book a Repair</a>
+      <a href="#" id="open-repair" class="text-white hover:text-red-300">Book a Repair</a>
     </div>
 
     <!-- Search -->
@@ -44,132 +44,95 @@ include "../src/components/home/header.php";
      class="fixed inset-0 bg-gray-900/70 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
   <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl p-8">
     <h2 class="text-2xl font-bold text-red-900 mb-6">Categories</h2>
-
-    <!-- Dynamic category list -->
     <div id="category-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-8"></div>
-
     <div class="mt-6 text-right">
       <button id="close-category" class="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800">Close</button>
     </div>
   </div>
 </div>
 
-  <script>
-    let products = [];
-    let categories = {};
 
-    function renderProducts(list) {
-      let grid = $("#product-grid");
-      grid.empty();
-      if (list.length === 0) {
-        grid.html("<p class='col-span-4 text-center text-gray-500'>No products found.</p>");
-        return;
-      }
 
-      list.forEach(product => {
-        let card = `
-          <div class="bg-white shadow-md rounded-lg p-4 text-center hover:shadow-xl transition">
-            <img src="http://localhost/RevvedupPos/static/upload/${product.prod_img}" 
-                 alt="${product.prod_name}" 
-                 class="mx-auto mb-4 h-40 object-contain">
-            <h3 class="text-gray-700 font-medium">${product.prod_name}</h3>
-            <p class="text-red-700 font-bold text-lg">Php. ${product.prod_price}</p>
-            <p class="text-sm text-gray-500">Stock: ${product.prod_qty}</p>
-          </div>
-        `;
-        grid.append(card);
-      });
-    }
+<!-- Book Repair Modal -->
+<div id="repairModal" 
+     class="fixed inset-0 bg-gray-900/70 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-8">
+    <h2 class="text-2xl font-bold text-red-900 mb-6">Book a Repair</h2>
 
-    function renderCategories() {
-      let grid = $("#category-grid");
-      grid.empty();
+    <form id="repairForm" class="space-y-4">
+        
+      <!-- Service selection (static) -->
+      <div>
+        <label class="block font-medium">Select Service</label>
+        <select id="service" name="service" class="w-full border rounded px-3 py-2">
+          <option value="Engine Repair">Engine Repair</option>
+          <option value="Brake Service">Brake Service</option>
+          <option value="Oil Change">Oil Change</option>
+          <option value="Tire Replacement">Tire Replacement</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
 
-      Object.keys(categories).forEach(cat => {
-        let subItems = categories[cat].map(sub => `
-          <li class="text-gray-700">${sub}</li>
-        `).join("");
+      <!-- Custom Service (hidden by default) -->
+      <div id="otherServiceWrapper" class="hidden">
+        <label class="block font-medium">Specify Other Service</label>
+        <input type="text" id="otherService" name="otherService" class="w-full border rounded px-3 py-2">
+      </div>
 
-        grid.append(`
-          <div>
-            <h3 class="font-bold text-lg mb-2 text-red-900">${cat}</h3>
-            <ul class="space-y-1">${subItems}</ul>
-          </div>
-        `);
-      });
-    }
+      <!-- Employee selection (API fetched) -->
+      <div>
+        <label class="block font-medium">Select Employee</label>
+        <select id="employee" name="employee_id" class="w-full border rounded px-3 py-2">
+          <option>Loading employees...</option>
+        </select>
+      </div>
 
-    $(document).ready(function () {
-      // Fetch products
-      $.ajax({
-        url: "http://localhost/RevvedupPos/controller/end-points/controller.php?requestType=fetch_all_product",
-        method: "GET",
-        dataType: "json",
-        success: function (response) {
-          if (response.status === 200) {
-            products = response.data;
+      <!-- Personal Info -->
+      <div>
+        <label class="block font-medium">Full Name</label>
+        <input type="text" id="fullname" name="fullname" class="w-full border rounded px-3 py-2" required>
+      </div>
+      <div>
+        <label class="block font-medium">Contact Number</label>
+        <input type="text" id="contact" name="contact" class="w-full border rounded px-3 py-2" required>
+      </div>
 
-            // Group products by category
-            products.forEach(p => {
-              if (!categories[p.prod_category]) {
-                categories[p.prod_category] = [];
-              }
-              if (!categories[p.prod_category].includes(p.prod_name)) {
-                categories[p.prod_category].push(p.prod_name);
-              }
-            });
+      <!-- Appointment Date -->
+      <div>
+        <label class="block font-medium">Appointment Date</label>
+        <input type="date" id="appointmentDate" name="appointmentDate" class="w-full border rounded px-3 py-2" required>
+      </div>
 
-            renderProducts(products);
-            renderCategories();
-          } else {
-            $("#product-grid").html("<p class='col-span-4 text-center text-gray-500'>No products found.</p>");
-          }
-        },
-        error: function () {
-          $("#product-grid").html("<p class='col-span-4 text-center text-red-500'>Failed to load products.</p>");
-        }
-      });
+      <!-- Appointment Time -->
+      <div>
+        <label class="block font-medium">Appointment Time</label>
+        <input type="time" id="appointmentTime" name="appointmentTime" class="w-full border rounded px-3 py-2" required>
+      </div>
 
-      // Sorting
-      $("#sort").on("change", function () {
-        let sortValue = $(this).val();
-        let sortedProducts = [...products];
+      <!-- Emergency Repair -->
+      <div class="flex items-center">
+        <input type="checkbox" id="emergency" name="emergency" value="1" class="mr-2">
+        <label for="emergency">Emergency Repair</label>
+      </div>
 
-        if (sortValue === "low-high") {
-          sortedProducts.sort((a, b) => parseFloat(a.prod_price) - parseFloat(b.prod_price));
-        } else if (sortValue === "high-low") {
-          sortedProducts.sort((a, b) => parseFloat(b.prod_price) - parseFloat(a.prod_price));
-        }
-        renderProducts(sortedProducts);
-      });
+      <!-- Pending -->
+      <p class="text-sm text-gray-600">⚠️ Appointment will be pending for approval.</p>
 
-      // Open modal
-      $("#open-category").on("click", function (e) {
-        e.preventDefault();
-        $("#categoryModal")
-            .removeClass("pointer-events-none opacity-0")
-            .addClass("opacity-100");
-      });
+      <!-- Buttons -->
+      <div class="mt-6 flex justify-end space-x-2">
+        <button type="button" id="close-repair" class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500">Cancel</button>
+        <button type="submit" class="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-      // Close modal
-      $("#close-category").on("click", function () {
-        $("#categoryModal")
-            .removeClass("opacity-100")
-            .addClass("opacity-0 pointer-events-none");
-      });
-
-      // Also close when clicking outside modal content
-      $(document).on("click", function (e) {
-        if ($(e.target).is("#categoryModal")) {
-          $("#categoryModal")
-              .removeClass("opacity-100")
-              .addClass("opacity-0 pointer-events-none");
-        }
-      });
-    });
-  </script>
 
 </body>
 <?php 
 include "../src/components/home/footer.php";
 ?>
+
+
+<script src="../static/js/home/fetch_product_api.js"></script>
+<script src="../static/js/home/fetch_product_employee.js"></script>
