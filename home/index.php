@@ -10,7 +10,7 @@ include "../src/components/home/header.php";
     </div>
 
     <div class="space-x-6 hidden md:flex">
-      <a href="#" class="text-white hover:text-red-300">Categories</a>
+      <a href="#" id="open-category" class="text-white hover:text-red-300">Categories</a>
       <a href="#" class="text-white hover:text-red-300">Book a Repair</a>
     </div>
 
@@ -39,8 +39,24 @@ include "../src/components/home/header.php";
     <!-- Products will load here dynamically -->
   </div>
 
+<!-- Category Modal -->
+<div id="categoryModal" 
+     class="fixed inset-0 bg-gray-900/70 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl p-8">
+    <h2 class="text-2xl font-bold text-red-900 mb-6">Categories</h2>
+
+    <!-- Dynamic category list -->
+    <div id="category-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-8"></div>
+
+    <div class="mt-6 text-right">
+      <button id="close-category" class="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800">Close</button>
+    </div>
+  </div>
+</div>
+
   <script>
-    let products = []; // store globally so we can sort later
+    let products = [];
+    let categories = {};
 
     function renderProducts(list) {
       let grid = $("#product-grid");
@@ -65,6 +81,24 @@ include "../src/components/home/header.php";
       });
     }
 
+    function renderCategories() {
+      let grid = $("#category-grid");
+      grid.empty();
+
+      Object.keys(categories).forEach(cat => {
+        let subItems = categories[cat].map(sub => `
+          <li class="text-gray-700">${sub}</li>
+        `).join("");
+
+        grid.append(`
+          <div>
+            <h3 class="font-bold text-lg mb-2 text-red-900">${cat}</h3>
+            <ul class="space-y-1">${subItems}</ul>
+          </div>
+        `);
+      });
+    }
+
     $(document).ready(function () {
       // Fetch products
       $.ajax({
@@ -74,7 +108,19 @@ include "../src/components/home/header.php";
         success: function (response) {
           if (response.status === 200) {
             products = response.data;
+
+            // Group products by category
+            products.forEach(p => {
+              if (!categories[p.prod_category]) {
+                categories[p.prod_category] = [];
+              }
+              if (!categories[p.prod_category].includes(p.prod_name)) {
+                categories[p.prod_category].push(p.prod_name);
+              }
+            });
+
             renderProducts(products);
+            renderCategories();
           } else {
             $("#product-grid").html("<p class='col-span-4 text-center text-gray-500'>No products found.</p>");
           }
@@ -84,18 +130,41 @@ include "../src/components/home/header.php";
         }
       });
 
-      // Sorting function
+      // Sorting
       $("#sort").on("change", function () {
         let sortValue = $(this).val();
-        let sortedProducts = [...products]; // clone array
+        let sortedProducts = [...products];
 
         if (sortValue === "low-high") {
           sortedProducts.sort((a, b) => parseFloat(a.prod_price) - parseFloat(b.prod_price));
         } else if (sortValue === "high-low") {
           sortedProducts.sort((a, b) => parseFloat(b.prod_price) - parseFloat(a.prod_price));
         }
-        // Default (Top Viewed) just resets to original
         renderProducts(sortedProducts);
+      });
+
+      // Open modal
+      $("#open-category").on("click", function (e) {
+        e.preventDefault();
+        $("#categoryModal")
+            .removeClass("pointer-events-none opacity-0")
+            .addClass("opacity-100");
+      });
+
+      // Close modal
+      $("#close-category").on("click", function () {
+        $("#categoryModal")
+            .removeClass("opacity-100")
+            .addClass("opacity-0 pointer-events-none");
+      });
+
+      // Also close when clicking outside modal content
+      $(document).on("click", function (e) {
+        if ($(e.target).is("#categoryModal")) {
+          $("#categoryModal")
+              .removeClass("opacity-100")
+              .addClass("opacity-0 pointer-events-none");
+        }
       });
     });
   </script>
