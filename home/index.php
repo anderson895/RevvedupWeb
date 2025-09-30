@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RevvedUp Shop</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Google Material Icons -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
+<?php 
+include "../src/components/home/header.php";
+?>
 <body class="bg-white font-sans">
 
   <!-- Navbar -->
@@ -25,7 +17,7 @@
     <!-- Search -->
     <div class="relative">
       <input type="text" placeholder="Search Item"
-        class="rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+        class="rounded-full px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-red-500">
       <button class="absolute right-2 top-2 text-red-700">
         <span class="material-icons">search</span>
       </button>
@@ -109,4 +101,6 @@
   </script>
 
 </body>
-</html>
+<?php 
+include "../src/components/home/footer.php";
+?>
