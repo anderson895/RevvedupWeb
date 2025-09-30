@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         }else if ($_POST['requestType'] == 'RequestAppointment') {
 
-                $service          = $_POST['service'] ?? '';
+               $service          = $_POST['service'] ?? '';
                 $employee_id      = $_POST['employee_id'] ?? '';
                 $fullname         = $_POST['fullname'] ?? '';
                 $contact          = $_POST['contact'] ?? '';
@@ -54,21 +54,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $appointmentTime  = $_POST['appointmentTime'] ?? '';
                 $emergency        = isset($_POST['emergency']) ? $_POST['emergency'] : 0;
 
-                if ($service === "other" && !empty($_POST['otherService'])) {
-                    $service = $_POST['otherService'];
+                // ✅ Handle "other" service
+                if ($service === "other") {
+                    $service = trim($_POST['otherService'] ?? '');
                 }
-                
-                if (empty($service) || empty($employee_id) || empty($fullname) || empty($contact) || empty($appointmentDate) || empty($appointmentTime)) {
+
+                // ✅ Validation: check required fields
+                if (empty($service)) {
                     echo json_encode([
                         'status' => 'error',
-                        'message' => 'Missing required fields.'
+                        'message' => 'Service is required.'
                     ]);
                     exit;
                 }
 
+                if (empty($employee_id) || empty($fullname) || empty($contact) || empty($appointmentDate) || empty($appointmentTime)) {
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => 'All fields are required.'
+                    ]);
+                    exit;
+                }
+
+                // ✅ Call DB function
                 $result = $db->RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency);
 
-                if ($result['success']) {
+                // ✅ Response
+                if (!empty($result['success']) && $result['success'] === true) {
                     echo json_encode([
                         'status' => 'success',
                         'message' => $result['message'],
@@ -76,10 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     echo json_encode([
                         'status' => 'error',
-                        'message' => $result['message']
+                        'message' => $result['message'] ?? 'Failed to process appointment.'
                     ]);
                 }
-
 
 
 
