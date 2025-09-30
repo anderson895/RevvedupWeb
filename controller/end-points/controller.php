@@ -9,16 +9,15 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['requestType'])) {
-         if ($_POST['requestType'] == 'Login_admin') {
-            $username = $_POST['username'];
+        if ($_POST['requestType'] == 'LoginCustomer') {
+            $email = $_POST['email'];
             $password = $_POST['password'];
-            $loginResult = $db->Login_admin($username, $password);
+            $loginResult = $db->Login($email, $password);
 
             if ($loginResult['success']) {
                 echo json_encode([
                     'status' => 'success',
-                    'message' => $loginResult['message'],
-                    'position' => $loginResult['data']['position']
+                    'message' => $loginResult['message']
                 ]);
             } else {
                 echo json_encode([
@@ -26,7 +25,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'message' => $loginResult['message']
                 ]);
             }
-    
+        }else if ($_POST['requestType'] == 'RegisterCustomer') {
+                $fullname = $_POST['fullname'];
+                $email  = $_POST['email'];
+                $password      = $_POST['password'];
+
+                $result = $db->RegisterCustomer($fullname, $email, $password);
+
+                if ($result['success']) {
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => $result['message'],
+                    ]);
+                } else {
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => $result['message']
+                    ]);
+                }
+
         }else {
                 echo "<pre>";
                 print_r($_POST);

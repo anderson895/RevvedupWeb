@@ -29,30 +29,36 @@ include "src/components/header.php";
         <h1 class="text-3xl font-bold text-center mb-4">Create Your Account</h1>
         <p class="text-center text-gray-300 mb-6">Sign up to access your dashboard.</p>
 
+
+         <!-- Spinner Overlay -->
+        <div id="spinner" class="absolute inset-0 flex items-center justify-center z-50  bg-white/70" style="display:none;">
+            <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+
         <!-- Registration Form -->
-        <form action="register_process.php" method="POST" class="space-y-4">
+         <form id="frmRegister" class="space-y-4">
           <div>
             <label for="fullname" class="block text-gray-300 mb-2">Full Name</label>
-            <input type="text" name="fullname" id="fullname" placeholder="John Doe" required
-              class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+            <input type="text" name="fullname" id="fullname" placeholder="John Doe" 
+              class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600" required>
           </div>
 
           <div>
             <label for="email" class="block text-gray-300 mb-2">Email</label>
-            <input type="email" name="email" id="email" placeholder="you@example.com" required
-              class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+            <input type="email" name="email" id="email" placeholder="you@example.com" 
+              class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600" required>
           </div>
 
           <div>
             <label for="password" class="block text-gray-300 mb-2">Password</label>
-            <input type="password" name="password" id="password" placeholder="********" required
-              class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+            <input type="password" name="password" id="password" placeholder="********" 
+              class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600" required>
           </div>
 
           <div>
             <label for="confirm_password" class="block text-gray-300 mb-2">Confirm Password</label>
-            <input type="password" name="confirm_password" id="confirm_password" placeholder="********" required
-              class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600">
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="********" 
+              class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600" required>
           </div>
 
           <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-full transition">Register</button>
@@ -72,3 +78,4 @@ include "src/components/header.php";
 <?php 
 include "src/components/footer.php";
 ?>
+<script src="static/js/register.js"></script>

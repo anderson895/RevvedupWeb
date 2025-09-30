@@ -29,8 +29,13 @@ include "src/components/header.php";
         <h1 class="text-3xl font-bold text-center mb-4">Sign In to Your Account</h1>
         <p class="text-center text-gray-300 mb-6">Enter your credentials to access your dashboard.</p>
 
+         <!-- Spinner Overlay -->
+        <div id="spinner" class="absolute inset-0 flex items-center justify-center z-50  bg-white/70" style="display:none;">
+            <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+
         <!-- Login Form -->
-        <form action="login_process.php" method="POST" class="space-y-4">
+        <form id="frmLogin" class="space-y-4">
           <div>
             <label for="email" class="block text-gray-300 mb-2">Email</label>
             <input type="email" name="email" id="email" placeholder="you@example.com" required
@@ -67,3 +72,4 @@ include "src/components/header.php";
 <?php 
 include "src/components/footer.php";
 ?>
+<script src="static/js/login.js"></script>
