@@ -29,7 +29,7 @@
             $user = $result->fetch_assoc();
 
             if (password_verify($password, $user['customer_password'])) {
-                
+
                 if (session_status() == PHP_SESSION_NONE) {
                     session_start();
                 }
@@ -56,6 +56,16 @@
         return ['success' => false, 'message' => 'Database error during execution.'];
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
