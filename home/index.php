@@ -17,7 +17,7 @@ include "../src/components/home/header.php";
 
     <!-- Search -->
     <div class="relative">
-      <input type="text" placeholder="Search Item"
+      <input id="searchInput" type="text" placeholder="Search Item"
         class="rounded-full px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-red-500">
       <button class="absolute right-2 top-2 text-red-700">
         <span class="material-icons">search</span>
