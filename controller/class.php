@@ -21,48 +21,61 @@
 
 
 
-        
-    public function RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency) {
-    
-        // build query (gamit placeholders para maiwasan SQL injection)
-        $query = "INSERT INTO appointments 
-                (service, employee_id, fullname, contact, appointmentDate, appointmentTime, emergency, status) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')";
+        public function RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency,$customer_id ) {
 
-        // prepare statement
-        $stmt = $this->conn->prepare($query);
-        if ($stmt === false) {
-            return [
-                'success' => false,
-                'message' => 'Query preparation failed: ' . $this->conn->error
-            ];
+            // Generate unique reference number
+            do {
+                $reference_number = rand(100000, 999999); // 6-digit number
+                $checkQuery = "SELECT COUNT(*) as count FROM appointments WHERE reference_number = ?";
+                $checkStmt = $this->conn->prepare($checkQuery);
+                $checkStmt->bind_param("i", $reference_number);
+                $checkStmt->execute();
+                $result = $checkStmt->get_result()->fetch_assoc();
+            } while ($result['count'] > 0); // repeat if number already exists
+
+            // Build query (with reference_number)
+            $query = "INSERT INTO appointments 
+                    (reference_number, service, employee_id, fullname, contact, appointmentDate, appointmentTime, emergency, status,appointment_customer_id) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending',?)";
+
+            // Prepare statement
+            $stmt = $this->conn->prepare($query);
+            if ($stmt === false) {
+                return [
+                    'success' => false,
+                    'message' => 'Query preparation failed: ' . $this->conn->error
+                ];
+            }
+
+           $stmt->bind_param(
+                "isissssii", 
+                $reference_number,
+                $service, 
+                $employee_id, 
+                $fullname, 
+                $contact, 
+                $appointmentDate, 
+                $appointmentTime, 
+                $emergency,
+                $customer_id
+            );
+
+
+            // Execute and check
+            if ($stmt->execute()) {
+                return [
+                    'success' => true,
+                    'message' => 'Appointment booked successfully. Pending for approval.',
+                    'reference_number' => $reference_number
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Appointment failed: ' . $stmt->error
+                ];
+            }
         }
 
-        // bind params (s = string, i = integer)
-        $stmt->bind_param(
-            "sissssi", 
-            $service, 
-            $employee_id, 
-            $fullname, 
-            $contact, 
-            $appointmentDate, 
-            $appointmentTime, 
-            $emergency
-        );
-
-        // execute and check
-        if ($stmt->execute()) {
-            return [
-                'success' => true,
-                'message' => 'Appointment booked successfully. Pending for approval.'
-            ];
-        } else {
-            return [
-                'success' => false,
-                'message' => 'Appointment failed: ' . $stmt->error
-            ];
-        }
-    }
 
 
 
@@ -165,6 +178,36 @@
             ];
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        // Fetch all users with position 'user', without password or pin
+        public function fetch_appointment($customer_id) {
+            $sql = "SELECT appointments.*
+                    FROM appointments 
+                    WHERE appointment_customer_id = '$customer_id'
+                    ORDER BY appointment_id DESC";
+            $result = $this->conn->query($sql);
+
+            $users = [];
+            if ($result && $result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $users[] = $row;
+                }
+            }
+            return $users;
+        }
 
 }
 

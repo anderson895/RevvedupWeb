@@ -46,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         }else if ($_POST['requestType'] == 'RequestAppointment') {
 
-               $service          = $_POST['service'] ?? '';
+                $customer_id      = $_SESSION['customer_id'];
+                $service          = $_POST['service'] ?? '';
                 $employee_id      = $_POST['employee_id'] ?? '';
                 $fullname         = $_POST['fullname'] ?? '';
                 $contact          = $_POST['contact'] ?? '';
@@ -77,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 // ✅ Call DB function
-                $result = $db->RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency);
+                $result = $db->RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency,$customer_id);
 
                 // ✅ Response
                 if (!empty($result['success']) && $result['success'] === true) {
@@ -109,8 +110,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    if (isset($_GET['requestType']))
     {
-        if ($_GET['requestType'] == 'fetch_all_product') {
-            $result = $db->fetch_all_product();
+        if ($_GET['requestType'] == 'fetch_appointment') {
+
+            $result = $db->fetch_appointment($_SESSION['customer_id']);
             echo json_encode([
                 'status' => 200,
                 'data' => $result

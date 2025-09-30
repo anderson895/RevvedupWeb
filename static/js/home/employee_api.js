@@ -78,49 +78,59 @@ $(document).ready(function(){
     });
 
     // Handle form submit
-    $("#repairForm").submit(function(e){
-        e.preventDefault();
+   $("#repairForm").submit(function(e){
+    e.preventDefault();
 
-        var formData = $(this).serializeArray();
-        formData.push({ name: 'requestType', value: '' });
-        var serializedData = $.param(formData);
+    var formData = $(this).serializeArray();
+    formData.push({ name: 'requestType', value: 'RequestAppointment' });
+    var serializedData = $.param(formData);
 
-        $.ajax({
-            url: "../controller/end-points/controller.php",
-            method: "POST",
-            data: serializedData,
-            dataType: "json",
-            success: function(response){
-                if(response.status === "success"){   
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Booked!',
-                        text: 'Repair booked successfully! \nYour request is pending for approval.',
-                        confirmButtonColor: '#d33'
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed!',
-                        text: '❌ ' + response.message,
-                        confirmButtonColor: '#3085d6'
-                    });
-                }
+    $.ajax({
+        url: "../controller/end-points/controller.php",
+        method: "POST",
+        data: serializedData,
+        dataType: "json",
+        success: function(response){
+            if(response.status === "success"){   
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Booked!',
+                    text: 'Repair booked successfully! \nYour request is pending for approval.',
+                    confirmButtonColor: '#d33'
+                }).then(() => {
+                    // Redirect AFTER user closes the alert
+                    window.location.href = "summary";
+                });
 
-                // Hide modal
-                $("#repairModal").addClass("opacity-0 pointer-events-none");
-            },
-            error: function(xhr, status, error){
-                console.error(error);
+            } else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error!',
-                    text: 'Error connecting to server.',
+                    title: 'Failed!',
+                    text: '❌ ' + response.message,
                     confirmButtonColor: '#3085d6'
                 });
             }
-        });
-    });
+
+            // Hide modal
+            $("#repairModal").addClass("opacity-0 pointer-events-none");
+          },
+          error: function(xhr, status, error){
+              console.error(error);
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error!',
+                  text: 'Error connecting to server.',
+                  confirmButtonColor: '#3085d6'
+              });
+          }
+      });
+  });
+
+
+
+
+
+
 });
 
 
