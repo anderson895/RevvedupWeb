@@ -1,26 +1,25 @@
 $(document).ready(function () {
     // Fetch appointments
     function fetchAppointments() {
-        $.ajax({
-            url: "../controller/end-points/controller.php",
-            method: "GET",
-            data: { requestType: "fetch_appointment" },
-            dataType: "json",
-            success: function (res) {
-                const tbody = $('#appointmentTableBody');
-                tbody.empty();
+    $.ajax({
+        url: "../controller/end-points/controller.php",
+        method: "GET",
+        data: { requestType: "fetch_appointment" },
+        dataType: "json",
+        success: function (res) {
+            const tbody = $('#appointmentTableBody');
+            tbody.empty();
 
-                if (res.status === 200 && res.data.length > 0) {
-                    res.data.forEach(data => {
+            if (res.status === 200 && res.data.length > 0) {
+                res.data.forEach(data => {
                     let statusColor = '';
                     if (data.status === "pending") statusColor = 'bg-yellow-500';
                     else if (data.status === "completed") statusColor = 'bg-green-600';
                     else statusColor = 'bg-red-600';
 
-                    // Disable cancel button if status is not pending
                     const disabled = data.status !== "pending" ? "disabled cursor-not-allowed opacity-50" : "";
 
-                    $('#appointmentTableBody').append(`
+                    tbody.append(`
                         <tr class="border-b hover:bg-gray-50 transition-colors">
                             <td class="px-4 py-2 font-medium text-gray-700">${data.reference_number}</td>
                             <td class="px-4 py-2 text-gray-600">${data.appointmentDate} ${data.appointmentTime}</td>
@@ -50,31 +49,42 @@ $(document).ready(function () {
                         </tr>
                     `);
                 });
-
-                } else {
-                    tbody.append(`
-                        <tr>
-                            <td colspan="4" class="p-4 text-center text-gray-400 italic">
-                                No record found
-                            </td>
-                        </tr>
-                    `);
-                }
+            } else {
+                tbody.append(`
+                    <tr>
+                        <td colspan="4" class="p-4 text-center text-gray-400 italic">
+                            No record found
+                        </td>
+                    </tr>
+                `);
             }
-        });
-    }
-
-    // Initial fetch
-    fetchAppointments();
-
-    // Search filter
-    $('#searchInput').on('input', function () {
-        const term = $(this).val().toLowerCase();
-        $('#appointmentTableBody tr').each(function () {
-            $(this).toggle($(this).text().toLowerCase().includes(term));
-        });
+        }
     });
+}
 
+// Initial fetch
+fetchAppointments();
+
+// Set interval to refresh every 5 seconds (5000ms)
+setInterval(fetchAppointments, 2000);
+
+// Search filter
+$('#searchInput').on('input', function () {
+    const term = $(this).val().toLowerCase();
+    $('#appointmentTableBody tr').each(function () {
+        $(this).toggle($(this).text().toLowerCase().includes(term));
+    });
+});
+
+
+
+
+
+
+
+
+
+    
     // Show modal on See Details click
     $(document).on('click', '.seeDetailsBtn', function () {
         const btn = $(this);
