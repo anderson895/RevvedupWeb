@@ -25,6 +25,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'message' => $loginResult['message']
                 ]);
             }
+        }else if ($_POST['requestType'] == 'cancel_appointment') {
+            $appointment_id = $_POST['appointment_id'];
+            $result = $db->cancel_appointment($appointment_id);
+
+            if ($result['success']) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => $result['message']   // <-- use $result, not $loginResult
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => $result['message']   // <-- use $result, not $loginResult
+                ]);
+            }
+
         }else if ($_POST['requestType'] == 'RegisterCustomer') {
                 $fullname = $_POST['fullname'];
                 $email  = $_POST['email'];

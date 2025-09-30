@@ -3,27 +3,10 @@ include "../src/components/home/header.php";
 ?>
 <body class="bg-white font-sans">
 
-  <!-- Navbar -->
-  <nav class="bg-gradient-to-r from-red-900 to-red-700 p-4 flex justify-between items-center">
-    <div class="text-white font-bold text-xl">
-      RevvedUp
-    </div>
+<?php 
+include "../src/components/home/nav.php";
+?>
 
-    <div class="space-x-6 hidden md:flex">
-      <a href="#" id="open-category" class="text-white hover:text-red-300">Categories</a>
-      <a href="#" id="open-repair" class="text-white hover:text-red-300">Book a Repair</a>
-      <a href="summary" class="text-white hover:text-red-300">Booking Summary</a>
-    </div>
-
-    <!-- Search -->
-    <div class="relative">
-      <input id="searchInput" type="text" placeholder="Search Item"
-        class="rounded-full px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-red-500">
-      <button class="absolute right-2 top-2 text-red-700">
-        <span class="material-icons">search</span>
-      </button>
-    </div>
-  </nav>
 
   <!-- Sort dropdown -->
  <div class="max-w-6xl mx-auto px-4 py-6 flex items-center justify-start space-x-2">
