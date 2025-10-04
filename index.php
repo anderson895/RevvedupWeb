@@ -38,8 +38,8 @@ include "src/components/header.php";
 
       <!-- Buttons -->
       <div class="flex gap-6">
-        <a href="#" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition">PRODUCTS</a>
-        <a href="#" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition">BOOK A REPAIR</a>
+        <a href="login" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition">PRODUCTS</a>
+        <a href="login" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition">BOOK A REPAIR</a>
       </div>
     </div>
   </section>
