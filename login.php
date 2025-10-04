@@ -52,7 +52,7 @@ include "src/components/header.php";
             <label class="flex items-center gap-2">
               <input type="checkbox" class="accent-red-600"> Remember Me
             </label>
-            <a href="forgot-password" class="hover:text-red-500">Forgot Password?</a>
+            <!-- <a href="forgot-password" class="hover:text-red-500">Forgot Password?</a> -->
           </div>
 
           <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-full transition">Sign In</button>
