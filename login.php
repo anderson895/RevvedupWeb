@@ -55,7 +55,7 @@ include "src/components/header.php";
             <!-- <a href="forgot-password" class="hover:text-red-500">Forgot Password?</a> -->
           </div>
 
-          <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-full transition">Sign In</button>
+          <button type="submit" class="w-full cursor-pointer bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-full transition">Sign In</button>
         </form>
 
         <!-- Register Link -->

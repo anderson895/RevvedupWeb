@@ -61,7 +61,7 @@ include "src/components/header.php";
               class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600" required>
           </div>
 
-          <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-full transition">Register</button>
+          <button type="submit" class="w-full cursor-pointer bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-full transition">Register</button>
         </form>
 
         <!-- Login Link -->
