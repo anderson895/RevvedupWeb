@@ -5,26 +5,62 @@ let categories = {};
 function renderProducts(list) {
   let grid = $("#product-grid");
   grid.empty();
+
   if (list.length === 0) {
     grid.html("<p class='col-span-4 text-center text-gray-500'>No products found.</p>");
     return;
   }
 
   list.forEach(product => {
-    let card = `
-      <div class="bg-white shadow-md rounded-lg p-4 text-center hover:shadow-xl transition">
+    let card = $(`
+      <div class="bg-white shadow-md rounded-lg p-4 text-center hover:shadow-xl transition cursor-pointer">
         <img src="http://localhost/RevvedupPos/static/upload/${product.prod_img}" 
              alt="${product.prod_name}" 
              class="mx-auto mb-4 h-40 object-contain">
         <h3 class="text-gray-700 font-medium">${product.prod_name}</h3>
         <p class="text-red-700 font-bold text-lg">Php. ${product.prod_price}</p>
         <p class="text-sm text-gray-500">Stock: ${product.prod_qty}</p>
-        
       </div>
-    `;
+    `);
+
+    // Click event to show modal
+    card.on("click", function() {
+      $("#modalImage").attr("src", `http://localhost/RevvedupPos/static/upload/${product.prod_img}`);
+      $("#modalName").text(product.prod_name);
+      $("#modalPrice").text(`Php. ${product.prod_price}`);
+      $("#modalStock").text(`Stock: ${product.prod_qty}`);
+      $("#modalDesc").text(product.prod_description || "No description available");
+
+      // Fade in modal
+      $("#productModal").removeClass("opacity-0 pointer-events-none").addClass("opacity-100");
+    });
+
     grid.append(card);
   });
 }
+
+// Close modal with smooth fade-out
+function closeModal() {
+  // Fade out by removing opacity-100, then disable pointer events after transition
+  $("#productModal").removeClass("opacity-100").addClass("opacity-0");
+  setTimeout(() => {
+    $("#productModal").addClass("pointer-events-none");
+  }, 300); // Match Tailwind transition duration
+}
+
+// Close when clicking backdrop
+$("#productModal").on("click", function(e) {
+  if (e.target.id === "productModal") {
+    closeModal();
+  }
+});
+
+// Close when clicking close button
+$("#closeModal").on("click", function() {
+  closeModal();
+});
+
+
 
 
 

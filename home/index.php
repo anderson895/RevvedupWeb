@@ -39,6 +39,38 @@ include "../src/components/home/nav.php";
     <!-- Products will load here dynamically -->
   </div>
 
+
+
+
+
+
+
+<!-- Modal -->
+<div id="productModal" class="fixed inset-0 bg-black/50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl p-6 flex flex-col md:flex-row relative overflow-hidden">
+
+    <!-- Close button -->
+    <button id="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+
+    <!-- Left: Images -->
+    <div class="md:w-1/2 flex justify-center items-center mb-4 md:mb-0">
+      <img id="modalImage" src="" alt="Product Image" class="w-full h-auto max-h-[400px] object-contain rounded">
+    </div>
+
+    <!-- Right: Details -->
+    <div class="md:w-1/2 md:pl-6 flex flex-col justify-center">
+      <h2 id="modalName" class="text-2xl font-semibold text-gray-800 mb-2"></h2>
+      <p id="modalPrice" class="text-red-600 font-bold text-xl mb-2"></p>
+      <p id="modalStock" class="text-gray-500 mb-4"></p>
+      <p id="modalDesc" class="text-gray-700"></p>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 </div>
 
 <?php include "modal.php"; ?>
