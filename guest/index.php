@@ -23,7 +23,15 @@ include "../src/components/guest/nav.php";
     <option value="low-high">Price: Low to High</option>
     <option value="high-low">Price: High to Low</option>
   </select>
+
+  <input type="text" placeholder="Search ..." id="searchInput"
+        class="rounded-full px-4 py-2 w-full bg-white border ">
+      <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-700">
+        <span class="material-icons">search</span>
+      </button>
+
 </div>
+
 
 
   <!-- Product Grid -->
