@@ -35,8 +35,13 @@ include "../src/components/home/nav.php";
               Date
             </th>
             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+              Address
+            </th>
+
+             <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
               Status
             </th>
+
             <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">
               Actions
             </th>

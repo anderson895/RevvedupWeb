@@ -27,6 +27,9 @@ $(document).ready(function () {
                         <tr class="border-b hover:bg-gray-50 transition-colors">
                             <td class="px-4 py-2 font-medium text-gray-700">${data.reference_number}</td>
                             <td class="px-4 py-2 text-gray-600">${data.appointmentDate} ${data.appointmentTime}</td>
+
+                            <td class="px-4 py-2 text-gray-600">${data.city} ${data.street}</td>
+
                             <td class="px-4 py-2">
                                 <span class="capitalize px-2 py-1 rounded-full text-white text-xs ${statusColor}">
                                     ${data.status}
