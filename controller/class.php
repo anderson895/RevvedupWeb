@@ -21,7 +21,7 @@
 
 
 
-        public function RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency,$customer_id ) {
+        public function RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency,$customer_id,$city,$street) {
 
             // Generate unique reference number
             do {
@@ -35,8 +35,8 @@
 
             // Build query (with reference_number)
             $query = "INSERT INTO appointments 
-                    (reference_number, service, employee_id, fullname, contact, appointmentDate, appointmentTime, emergency, status,appointment_customer_id) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending',?)";
+                    (reference_number, service, employee_id, fullname, contact, appointmentDate, appointmentTime, emergency, status,appointment_customer_id,city,street) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending',?,?,?)";
 
             // Prepare statement
             $stmt = $this->conn->prepare($query);
@@ -48,7 +48,7 @@
             }
 
            $stmt->bind_param(
-                "isissssii", 
+                "isissssiiss", 
                 $reference_number,
                 $service, 
                 $employee_id, 
@@ -57,7 +57,9 @@
                 $appointmentDate, 
                 $appointmentTime, 
                 $emergency,
-                $customer_id
+                $customer_id,
+                $city,
+                $street
             );
 
 

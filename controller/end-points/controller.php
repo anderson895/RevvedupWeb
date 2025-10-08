@@ -71,6 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $contact          = $_POST['contact'] ?? '';
                 $appointmentDate  = $_POST['appointmentDate'] ?? '';
                 $appointmentTime  = $_POST['appointmentTime'] ?? '';
+                $city  = $_POST['city'] ?? '';
+                $street  = $_POST['street'] ?? '';
                 $emergency        = isset($_POST['emergency']) ? $_POST['emergency'] : 0;
 
                 // ✅ Handle "other" service
@@ -109,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 // ✅ Call DB function
-                $result = $db->RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency, $customer_id);
+                $result = $db->RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency, $customer_id,$city,$street);
 
                 // ✅ Response
                 if (!empty($result['success']) && $result['success'] === true) {

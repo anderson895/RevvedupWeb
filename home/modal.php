@@ -56,6 +56,30 @@
         <input type="text" id="contact" name="contact" class="w-full border rounded px-3 py-2" required>
       </div>
 
+
+
+
+      <!-- City Selection -->
+      <div>
+        <label class="block font-medium">Select City</label>
+        <select id="city" name="city" class="w-full border rounded px-3 py-2" required>
+          <option value="">-- Select City --</option>
+          <option value="Antipolo">Antipolo</option>
+          <option value="Angono">Angono</option>
+          <option value="Taytay">Taytay</option>
+          <option value="Cainta">Cainta</option>
+        </select>
+      </div>
+
+      <!-- Street Input -->
+      <div>
+        <label class="block font-medium">Street</label>
+        <input type="text" id="street" name="street" class="w-full border rounded px-3 py-2" placeholder="Enter your street address" required>
+      </div>
+
+
+
+
       <!-- Appointment Date -->
       <div>
         <label class="block font-medium">Appointment Date</label>
@@ -79,8 +103,8 @@
 
       <!-- Buttons -->
       <div class="mt-6 flex justify-end space-x-2">
-        <button type="button" id="close-repair" class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500">Cancel</button>
-        <button type="submit" class="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800">Submit</button>
+        <button type="button" id="close-repair" class="cursor-pointer bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500">Cancel</button>
+        <button type="submit" class="cursor-pointer bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800">Submit</button>
       </div>
     </form>
   </div>

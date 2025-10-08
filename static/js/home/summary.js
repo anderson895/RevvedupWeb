@@ -42,6 +42,8 @@ $(document).ready(function () {
                                     data-date='${data.appointmentDate}'
                                     data-time='${data.appointmentTime}'
                                     data-emergency='${data.emergency}'
+                                    data-city='${data.city}'
+                                    data-street='${data.street}'
                                     data-status='${data.status}'>
                                     <span class="material-icons text-sm align-middle">visibility</span> See Details
                                 </button>
@@ -100,6 +102,7 @@ $('#searchInput').on('input', function () {
             <p><strong>Date & Time:</strong> ${btn.data('date')} ${btn.data('time')}</p>
             <p><strong>Emergency:</strong> ${btn.data('emergency') == "1" ? "Yes" : "No"}</p>
             <p><strong>Status:</strong> ${btn.data('status')}</p>
+            <p><strong>Address:</strong> ${btn.data('city')} ${btn.data('street')}</p>
         `;
         $('#modalContent').html(content);
         $('#detailsModal').removeClass('opacity-0 pointer-events-none');
