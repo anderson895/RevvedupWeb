@@ -19,11 +19,24 @@ function renderProducts(list) {
         <h3 class="text-gray-700 font-medium">${product.prod_name}</h3>
         <p class="text-red-700 font-bold text-lg">Php. ${product.prod_price}</p>
         <p class="text-sm text-gray-500">Stock: ${product.prod_qty}</p>
+        
       </div>
     `;
     grid.append(card);
   });
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Render categories
 function renderCategories() {
