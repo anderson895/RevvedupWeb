@@ -18,6 +18,7 @@ $(document).ready(function () {
                     let statusColor = '';
                     if (data.status === "pending") statusColor = 'bg-yellow-500';
                     else if (data.status === "completed") statusColor = 'bg-green-600';
+                    else if (data.status === "approved") statusColor = 'bg-blue-600';
                     else statusColor = 'bg-red-600';
 
                     const disabled = data.status !== "pending" ? "disabled cursor-not-allowed opacity-50" : "";
