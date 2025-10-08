@@ -62,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         }else if ($_POST['requestType'] == 'RequestAppointment') {
 
+                date_default_timezone_set('Asia/Manila'); // Set Manila timezone
+
                 $customer_id      = $_SESSION['customer_id'];
                 $service          = $_POST['service'] ?? '';
                 $employee_id      = $_POST['employee_id'] ?? '';
@@ -93,8 +95,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit;
                 }
 
+                // ✅ Validate appointment time (8:00 AM - 6:00 PM)
+                $time = DateTime::createFromFormat('H:i', $appointmentTime);
+                $startTime = DateTime::createFromFormat('H:i', '08:00');
+                $endTime = DateTime::createFromFormat('H:i', '18:00');
+
+                if (!$time || $time < $startTime || $time > $endTime) {
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => 'Appointment time must be between 8:00 AM and 6:00 PM.'
+                    ]);
+                    exit;
+                }
+
                 // ✅ Call DB function
-                $result = $db->RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency,$customer_id);
+                $result = $db->RequestAppointment($service, $employee_id, $fullname, $contact, $appointmentDate, $appointmentTime, $emergency, $customer_id);
 
                 // ✅ Response
                 if (!empty($result['success']) && $result['success'] === true) {
@@ -108,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'message' => $result['message'] ?? 'Failed to process appointment.'
                     ]);
                 }
+
 
 
 

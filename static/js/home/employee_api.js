@@ -106,7 +106,7 @@ $(document).ready(function(){
                 Swal.fire({
                     icon: 'error',
                     title: 'Failed!',
-                    text: '❌ ' + response.message,
+                    text: response.message,
                     confirmButtonColor: '#3085d6'
                 });
             }
