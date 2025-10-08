@@ -5,9 +5,6 @@ include "src/components/header.php";
 
   <!-- Navbar -->
   <header class="absolute top-0 left-0 w-full flex justify-end items-center p-6 z-20 bg-black/50">
-
-  
-
     <nav class="flex gap-6 text-sm font-semibold">
       <a href="login" class="hover:text-red-500">Sign In</a>
       <a href="register" class="hover:text-red-500">Register</a>
@@ -38,7 +35,7 @@ include "src/components/header.php";
 
       <!-- Buttons -->
       <div class="flex gap-6">
-        <a href="login" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition">PRODUCTS</a>
+        <a href="guest/" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition">PRODUCTS</a>
         <a href="login" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition">BOOK A REPAIR</a>
       </div>
     </div>

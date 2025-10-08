@@ -1,6 +1,9 @@
 $(document).ready(function () {
     // Fetch appointments
-    function fetchAppointments() {
+ function fetchAppointments() {
+    // Don't fetch if search input is focused
+    if ($('#searchInput').is(':focus')) return;
+
     $.ajax({
         url: "../controller/end-points/controller.php",
         method: "GET",
@@ -65,7 +68,7 @@ $(document).ready(function () {
 // Initial fetch
 fetchAppointments();
 
-// Set interval to refresh every 5 seconds (5000ms)
+// Set interval to refresh every 2 seconds
 setInterval(fetchAppointments, 2000);
 
 // Search filter

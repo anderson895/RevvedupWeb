@@ -1,26 +1,4 @@
-<?php 
-session_start();
-include "auth.php";
 
-$db = new auth_class();
-
-if (isset($_SESSION['customer_id'])) {
-    $id = intval($_SESSION['customer_id']);
-    $On_Session = $db->check_account($id);
-    if (!empty($On_Session)) {
-    } else {
-       header('location: ../login');
-    }
-} else {
-   header('location: ../login');
-}
-
-
-// echo "<pre>";
-// print_r($On_Session);
-// echo "</pre>";
-
-?>
 
 <!doctype html>
 <html>

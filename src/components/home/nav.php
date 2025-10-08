@@ -23,20 +23,13 @@
 
     <!-- Search + Profile -->
     <div class="flex items-center mt-4 md:mt-0 md:ml-4 space-x-4">
-        <!-- Search -->
-        <div class="relative">
-            <input type="text" placeholder="Search Item" id="searchInput"
-                class="rounded-full px-4 py-2 w-full md:w-64 bg-white focus:outline-none focus:ring-2 focus:ring-red-500">
-            <button class="absolute right-2 top-2 text-red-700">
-                <span class="material-icons">search</span>
-            </button>
-        </div>
+      
 
         <!-- Profile Dropdown -->
         <div class="relative">
             <button id="profileBtn" class="flex cursor-pointer items-center text-white focus:outline-none hover:text-red-300">
                 <img src="../static/images/user.png" alt="Profile" class="rounded-full w-8 h-8 mr-2">
-                <span class="font-medium">John Doe</span>
+                <span class="font-medium"><?=$On_Session[0]['customer_fullname']?></span>
                 <span class="material-icons ml-1">arrow_drop_down</span>
             </button>
 
