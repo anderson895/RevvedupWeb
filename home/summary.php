@@ -15,7 +15,7 @@ include "../src/components/home/nav.php";
     <!-- Search -->
     <div class="flex justify-end">
       <div class="relative w-full md:w-64">
-        <input type="text" placeholder="Search Item" id="searchInput"
+        <input type="text" placeholder="Search ..." id="searchInput"
           class="rounded-full px-4 py-2 w-full border focus:outline-none ">
         <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-700">
           <span class="material-icons">search</span>
