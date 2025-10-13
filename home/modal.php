@@ -1,14 +1,20 @@
 <!-- Category Modal -->
 <div id="categoryModal" 
      class="fixed inset-0 bg-gray-900/70 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl p-8">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl p-8 max-h-[90vh] flex flex-col">
     <h2 class="text-2xl font-bold text-red-900 mb-6">Categories</h2>
-    <div id="category-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-8"></div>
+
+    <!-- Scrollable category grid -->
+    <div id="category-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-8 overflow-y-auto pr-2 flex-1">
+      <!-- Dynamic categories will render here -->
+    </div>
+
     <div class="mt-6 text-right">
       <button id="close-category" class="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800">Close</button>
     </div>
   </div>
 </div>
+
 
 
 
